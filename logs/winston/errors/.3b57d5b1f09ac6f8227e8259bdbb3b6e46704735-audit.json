@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "G:\\0001_Project\\project\\Open Course\\open-course-ss\\logs\\winston\\errors\\.3b57d5b1f09ac6f8227e8259bdbb3b6e46704735-audit.json",
+    "files": [
+        {
+            "date": 1690566544039,
+            "name": "G:\\0001_Project\\project\\Open Course\\open-course-ss\\logs\\winston\\errors\\[2023-07-28-23]-error.log",
+            "hash": "7bfc5070776dbc57cab6a17d3064306ccf79f2b91e22e54f8ff839718d3c5b37"
+        }
+    ],
+    "hashType": "sha256"
+}
