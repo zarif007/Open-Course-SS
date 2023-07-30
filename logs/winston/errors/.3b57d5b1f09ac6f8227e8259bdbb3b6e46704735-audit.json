@@ -1,30 +1,30 @@
 {
-    "keep": {
-        "days": true,
-        "amount": 14
+  "keep": {
+    "days": true,
+    "amount": 14
+  },
+  "auditLog": "G:\\0001_Project\\project\\Open Course\\open-course-ss\\logs\\winston\\errors\\.3b57d5b1f09ac6f8227e8259bdbb3b6e46704735-audit.json",
+  "files": [
+    {
+      "date": 1690566544039,
+      "name": "G:\\0001_Project\\project\\Open Course\\open-course-ss\\logs\\winston\\errors\\[2023-07-28-23]-error.log",
+      "hash": "7bfc5070776dbc57cab6a17d3064306ccf79f2b91e22e54f8ff839718d3c5b37"
     },
-    "auditLog": "G:\\0001_Project\\project\\Open Course\\open-course-ss\\logs\\winston\\errors\\.3b57d5b1f09ac6f8227e8259bdbb3b6e46704735-audit.json",
-    "files": [
-        {
-            "date": 1690566544039,
-            "name": "G:\\0001_Project\\project\\Open Course\\open-course-ss\\logs\\winston\\errors\\[2023-07-28-23]-error.log",
-            "hash": "7bfc5070776dbc57cab6a17d3064306ccf79f2b91e22e54f8ff839718d3c5b37"
-        },
-        {
-            "date": 1690712765018,
-            "name": "G:\\0001_Project\\project\\Open Course\\open-course-ss\\logs\\winston\\errors\\[2023-07-30-16]-error.log",
-            "hash": "8b88421613feb965e410258c5538ca619a4f9abe8a97885f93e6b718813004f0"
-        },
-        {
-            "date": 1690727260313,
-            "name": "G:\\0001_Project\\project\\Open Course\\open-course-ss\\logs\\winston\\errors\\[2023-07-30-20]-error.log",
-            "hash": "ac8fa9072b135a606e988a3a547af12de30df0afc11a0b1be2fb00d9461fce37"
-        },
-        {
-            "date": 1690729239446,
-            "name": "G:\\0001_Project\\project\\Open Course\\open-course-ss\\logs\\winston\\errors\\[2023-07-30-21]-error.log",
-            "hash": "ad585eee8a48532df306aa9c001f5a70b28349c001efaac07013b169c4706e47"
-        }
-    ],
-    "hashType": "sha256"
+    {
+      "date": 1690712765018,
+      "name": "G:\\0001_Project\\project\\Open Course\\open-course-ss\\logs\\winston\\errors\\[2023-07-30-16]-error.log",
+      "hash": "8b88421613feb965e410258c5538ca619a4f9abe8a97885f93e6b718813004f0"
+    },
+    {
+      "date": 1690727260313,
+      "name": "G:\\0001_Project\\project\\Open Course\\open-course-ss\\logs\\winston\\errors\\[2023-07-30-20]-error.log",
+      "hash": "ac8fa9072b135a606e988a3a547af12de30df0afc11a0b1be2fb00d9461fce37"
+    },
+    {
+      "date": 1690729239446,
+      "name": "G:\\0001_Project\\project\\Open Course\\open-course-ss\\logs\\winston\\errors\\[2023-07-30-21]-error.log",
+      "hash": "ad585eee8a48532df306aa9c001f5a70b28349c001efaac07013b169c4706e47"
+    }
+  ],
+  "hashType": "sha256"
 }
