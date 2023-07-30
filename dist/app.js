@@ -21,9 +21,9 @@ app.use('/api/v1', routes_1.default);
 app.get('/', (req, res) => {
     res.send('Hell0o');
 });
-//global error handler
+// global error handler
 app.use(globalErrorHandler_1.default);
-//handle not found
+// handle not found
 app.use((req, res, next) => {
     res.status(http_status_1.default.NOT_FOUND).json({
         success: false,

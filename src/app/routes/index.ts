@@ -1,15 +1,15 @@
 import { Router } from 'express';
+import { CourseRoutes } from '../modules/course/course.route';
 
 const router = Router();
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const moduleRoutes = [
   {
-    path: '',
-    route: '',
+    path: '/course',
+    route: CourseRoutes,
   },
 ];
 
-// moduleRoutes.forEach(route => router.use(route.path, route.route));
+moduleRoutes.forEach(route => router.use(route.path, route.route));
 
 export default router;

@@ -24,10 +24,10 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hell0o');
 });
 
-//global error handler
+// global error handler
 app.use(globalErrorHandler);
 
-//handle not found
+// handle not found
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(httpStatus.NOT_FOUND).json({
     success: false,

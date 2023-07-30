@@ -6,16 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const envConfig_1 = __importDefault(require("../../config/envConfig"));
 const handleValidationError_1 = __importDefault(require("../../errors/handleValidationError"));
 const ApiError_1 = __importDefault(require("../../errors/ApiError"));
-const logger_1 = require("../../shared/logger");
 const zod_1 = require("zod");
 const handleZodError_1 = __importDefault(require("../../errors/handleZodError"));
 const handleCastError_1 = __importDefault(require("../../errors/handleCastError"));
 const envBasedLogger = (error) => {
     // eslint-disable-next-line
     envConfig_1.default.node_env === 'development'
-        ? // eslint-disable-next-line no-console
-            console.log('Global Error Handler', error)
-        : logger_1.errorLogger.error('Global error handler', error);
+        ? console.log('Global Error Handler', error)
+        : console.log('Global error handler', error);
 };
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const globalErrorHandler = (err, req, res, next) => {

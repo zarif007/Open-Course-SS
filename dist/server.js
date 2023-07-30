@@ -12,27 +12,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable no-console */
 const mongoose_1 = __importDefault(require("mongoose"));
 const envConfig_1 = __importDefault(require("./config/envConfig"));
 const app_1 = __importDefault(require("./app"));
-const logger_1 = require("./shared/logger");
 let server;
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(envConfig_1.default.database_url);
-        logger_1.infoLogger.info(`🤩 Database is connected`);
+        console.log(`🤩 Database is connected`);
         server = app_1.default.listen(envConfig_1.default.PORT, () => {
-            logger_1.infoLogger.info(`App is listening on PORT ${envConfig_1.default.PORT} & Process ID ${process.pid}`);
+            console.log(`App is listening on PORT ${envConfig_1.default.PORT} & Process ID ${process.pid}`);
         });
     }
     catch (err) {
-        logger_1.errorLogger.error(`Failed to connect to Database ${err}`);
+        console.log(`Failed to connect to Database ${err}`);
     }
     // handling Gracefully shutting off the server for unhandledRejection
     process.on('unhandledRejection', error => {
         if (server) {
             server.close(() => {
-                logger_1.errorLogger.error(error);
+                console.log(error);
                 process.exit(1);
             });
         }
@@ -44,12 +44,12 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
 main();
 // handling shutting off the server for uncaughtException
 process.on('uncaughtException', error => {
-    logger_1.errorLogger.error(error);
+    console.log(error);
     process.exit(1);
 });
 // handling signal for termination
 process.on('SIGTERM', () => {
-    logger_1.infoLogger.info('SIGTERM received');
+    console.log('SIGTERM received');
     if (server) {
         server.close();
     }

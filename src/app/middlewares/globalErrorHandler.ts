@@ -1,9 +1,9 @@
+/* eslint-disable no-console */
 import { ErrorRequestHandler } from 'express';
 import envConfig from '../../config/envConfig';
 import handleValidationError from '../../errors/handleValidationError';
 import { IGenericErrorMessage } from '../../interfaces/errors/genericError.interfaces';
 import ApiError from '../../errors/ApiError';
-import { errorLogger } from '../../shared/logger';
 import { ZodError } from 'zod';
 import handleZodError from '../../errors/handleZodError';
 import handleCastError from '../../errors/handleCastError';
@@ -11,9 +11,8 @@ import handleCastError from '../../errors/handleCastError';
 const envBasedLogger = (error: any) => {
   // eslint-disable-next-line
   envConfig.node_env === 'development'
-    ? // eslint-disable-next-line no-console
-      console.log('Global Error Handler', error)
-    : errorLogger.error('Global error handler', error);
+    ? console.log('Global Error Handler', error)
+    : console.log('Global error handler', error);
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
