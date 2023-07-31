@@ -1,11 +1,6 @@
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { IUser } from '../user/user.interface';
-
-export type ICourseTopic = {
-  title: string;
-  url: string;
-  description: string;
-};
+import { ICourseTopic } from '../courseTopic/courseTopic.interface';
 
 export type ICourse = {
   id?: string;
@@ -20,7 +15,7 @@ export type ICourse = {
   categories: string[];
   description: string;
   banner?: string;
-  topics: ICourseTopic[];
+  topics: ICourseTopic[] | [] | Types.ObjectId[];
   tags: string[];
   createdAt?: Date;
   updatedAt?: Date;

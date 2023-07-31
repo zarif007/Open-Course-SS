@@ -45,13 +45,8 @@ const CourseSchema = new Schema<ICourse, ICourseModel>(
       default: '',
     },
     topics: {
-      type: [
-        {
-          title: String,
-          url: String,
-          description: String,
-        },
-      ],
+      type: [Schema.Types.ObjectId],
+      ref: 'CourseTopic',
       default: [],
     },
     tags: {

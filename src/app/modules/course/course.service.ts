@@ -1,18 +1,29 @@
+import { Types } from 'mongoose';
+import { CourseTopic } from '../courseTopic/courseTopic.model';
 import { ICourse } from './course.interface';
 import { Course } from './course.model';
 
 const getCourses = async (query: object): Promise<ICourse[] | null> => {
-  const results = await Course.find(query);
+  const results = await Course.find(query).populate('topics');
   return results;
 };
 
 const getSingleCourse = async (id: string): Promise<ICourse | null> => {
-  const results = await Course.findById(id);
+  const results = await Course.findById(id).populate('topics');
   return results;
 };
 
 const createCourse = async (payload: ICourse): Promise<ICourse | null> => {
-  const result = await Course.create(payload);
+  const topicIds: Types.ObjectId[] = [];
+
+  for (const topic of payload.topics) {
+    const res = await CourseTopic.create(topic);
+    topicIds.push(res._id);
+  }
+
+  const result = await Course.create({ ...payload, topics: topicIds });
+
+  await result.populate('topics');
   return result;
 };
 

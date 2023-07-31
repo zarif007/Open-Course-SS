@@ -45,13 +45,8 @@ const CourseSchema = new mongoose_1.Schema({
         default: '',
     },
     topics: {
-        type: [
-            {
-                title: String,
-                url: String,
-                description: String,
-            },
-        ],
+        type: [mongoose_1.Schema.Types.ObjectId],
+        ref: "CourseTopic",
         default: [],
     },
     tags: {
