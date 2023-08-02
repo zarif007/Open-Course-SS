@@ -13,6 +13,8 @@ export type ICourse = {
   contributors: IUser[] | [];
   enrolledUsers: IUser[] | [];
   categories: string[];
+  levels: string[];
+  languages: string[];
   description: string;
   banner?: string;
   topics: ICourseTopic[] | [] | Types.ObjectId[];

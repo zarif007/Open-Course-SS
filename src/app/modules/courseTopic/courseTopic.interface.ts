@@ -8,6 +8,7 @@ export type ICourseTopic = {
       title: string;
       url: string;
       description: string;
+      duration: number;
     }
   ];
 };

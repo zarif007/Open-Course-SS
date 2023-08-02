@@ -36,6 +36,14 @@ const CourseSchema = new Schema<ICourse, ICourseModel>(
       type: [String],
       default: [],
     },
+    levels: {
+      type: [String],
+      default: [],
+    },
+    languages: {
+      type: [String],
+      default: [],
+    },
     description: {
       type: String,
       default: '',

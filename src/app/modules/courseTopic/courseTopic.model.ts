@@ -21,6 +21,10 @@ const CourseTopicSchema = new Schema<ICourseTopic, ICourseTopicModel>(
           type: String,
           required: [true, 'Link is required'],
         },
+        duration: {
+          type: Number,
+          default: 0,
+        },
       },
     ],
   },
