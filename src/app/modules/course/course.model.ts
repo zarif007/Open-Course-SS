@@ -1,6 +1,5 @@
 import { Schema, model } from 'mongoose';
 import { ICourse, ICourseModel } from './course.interface';
-import { userSchema } from '../user/user.model';
 
 const CourseSchema = new Schema<ICourse, ICourseModel>(
   {
@@ -21,15 +20,15 @@ const CourseSchema = new Schema<ICourse, ICourseModel>(
       default: true,
     },
     creator: {
-      type: userSchema,
+      type: String,
       required: [true, 'Creator is required'],
     },
     contributors: {
-      type: [userSchema],
+      type: [String],
       default: [],
     },
     enrolledUsers: {
-      type: [userSchema],
+      type: [String],
       default: [],
     },
     categories: {

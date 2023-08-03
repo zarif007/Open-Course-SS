@@ -5,6 +5,21 @@ import { Course } from './course.model';
 
 const getCourses = async (query: object): Promise<ICourse[] | null> => {
   const results = await Course.find(query).populate('topics');
+
+  // // results.forEach((course: ICourse) => {
+  // //   course.creator = await
+  // // })
+
+  // for(const course of results) {
+  //   course.creator = await UserService.getUserById(course.id) ?? '';
+
+  //   for(const contributor of results.contributors) {
+
+  //   }
+  // }
+
+  // // eslint-disable-next-line no-console
+  // console.log(results)
   return results;
 };
 
@@ -16,6 +31,7 @@ const getSingleCourse = async (id: string): Promise<ICourse | null> => {
 const createCourse = async (payload: ICourse): Promise<ICourse | null> => {
   const topicIds: Types.ObjectId[] = [];
 
+  // Creating topics and storing _ids at the course
   for (const topic of payload.topics) {
     const res = await CourseTopic.create(topic);
     topicIds.push(res._id);

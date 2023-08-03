@@ -9,9 +9,9 @@ export type ICourse = {
   type: 'gn' | 'org';
   version: number;
   enabled: boolean;
-  creator: IUser;
-  contributors: IUser[] | [];
-  enrolledUsers: IUser[] | [];
+  creator: IUser | string;
+  contributors: (IUser | string)[];
+  enrolledUsers: (IUser | string)[];
   categories: string[];
   levels: string[];
   languages: string[];

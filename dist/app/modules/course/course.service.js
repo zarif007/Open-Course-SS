@@ -14,6 +14,16 @@ const courseTopic_model_1 = require("../courseTopic/courseTopic.model");
 const course_model_1 = require("./course.model");
 const getCourses = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const results = yield course_model_1.Course.find(query).populate('topics');
+    // // results.forEach((course: ICourse) => {
+    // //   course.creator = await 
+    // // })
+    // for(const course of results) {
+    //   course.creator = await UserService.getUserById(course.id) ?? '';
+    //   for(const contributor of results.contributors) {
+    //   }
+    // }
+    // // eslint-disable-next-line no-console
+    // console.log(results)
     return results;
 });
 const getSingleCourse = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -22,6 +32,7 @@ const getSingleCourse = (id) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const createCourse = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const topicIds = [];
+    // Creating topics and storing _ids at the course
     for (const topic of payload.topics) {
         const res = yield courseTopic_model_1.CourseTopic.create(topic);
         topicIds.push(res._id);

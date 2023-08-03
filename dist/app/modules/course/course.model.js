@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Course = void 0;
 const mongoose_1 = require("mongoose");
-const user_model_1 = require("../user/user.model");
 const CourseSchema = new mongoose_1.Schema({
     title: {
         type: String,
@@ -21,15 +20,15 @@ const CourseSchema = new mongoose_1.Schema({
         default: true,
     },
     creator: {
-        type: user_model_1.userSchema,
+        type: String,
         required: [true, 'Creator is required'],
     },
     contributors: {
-        type: [user_model_1.userSchema],
+        type: [String],
         default: [],
     },
     enrolledUsers: {
-        type: [user_model_1.userSchema],
+        type: [String],
         default: [],
     },
     categories: {

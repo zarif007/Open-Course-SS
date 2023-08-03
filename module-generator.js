@@ -1,43 +1,86 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-console */
-const fs = require('fs');
+const fs = require('fs').promises;
+const path = require('path');
+
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 const files = [
   {
     name: 'controller.ts',
-    code: ``,
+    getCode: (folderName) => 
+`/* eslint-disable @typescript-eslint/no-unused-vars */
+import { ${capitalize(folderName)}Service } from './${folderName}.service';
+import { I${capitalize(folderName)} } from './${folderName}.interface';
+
+
+export const ${capitalize(folderName)}Controller = {};
+`,
   },
   {
     name: 'interface.ts',
-    code: ``,
+    getCode: (folderName) => 
+`/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Model, Types } from 'mongoose';
+
+export type I${capitalize(folderName)} = {
+
+}
+
+export type I${capitalize(folderName)}Model = Model<I${capitalize(folderName)}, Record<string, unknown>>;`
   },
   {
     name: 'model.ts',
-    code: ``,
+    getCode: (folderName) => 
+`import { Schema, model } from 'mongoose';
+import { I${capitalize(folderName)}, I${capitalize(folderName)}Model } from './${folderName}.interface';
+
+const ${capitalize(folderName)}Schema = new Schema<I${capitalize(folderName)}, I${capitalize(folderName)}Model>(
+  {
+
+  }
+);
+
+export const ${capitalize(folderName)} = model<I${capitalize(folderName)}, I${capitalize(folderName)}Model>('${capitalize(folderName)}', ${capitalize(folderName)}Schema);
+`
   },
   {
     name: 'service.ts',
-    code: '',
+    getCode: (folderName) => 
+`/* eslint-disable @typescript-eslint/no-unused-vars */
+import { I${capitalize(folderName)} } from './${folderName}.interface';
+import { ${capitalize(folderName)} } from './${folderName}.model';
+
+export const ${capitalize(folderName)}Service = {};
+`
   },
   {
     name: 'route.ts',
-    code: ``,
+    getCode: (folderName) => 
+`/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Router } from 'express';
+import { ${capitalize(folderName)}Controller } from './${folderName}.controller';
+
+const router = Router();
+
+export const ${capitalize(folderName)}Routes = router;
+`
   },
 ];
 
 async function createFolderAndFiles(parentDirectory, folderName) {
   try {
-    // Create the folder
-    await fs.promises.mkdir(`${parentDirectory}/${folderName}`);
+    const moduleDirectory = path.join(parentDirectory, folderName);
 
-    // Create the files
-    await Promise.all(
-      files.map(async file => {
-        const filePath = `${parentDirectory}/${folderName}/${folderName}.${file.name}`;
-        await fs.promises.writeFile(filePath, file.code);
-        console.log(`Created ${filePath}`);
-      })
-    );
+    // Create the folder
+    await fs.mkdir(moduleDirectory);
+
+    // Create the files using for...of loop and async/await
+    for (const file of files) {
+      const filePath = path.join(moduleDirectory, `${folderName}.${file.name}`);
+      await fs.writeFile(filePath, file.getCode(folderName));
+      console.log(`Created ${filePath}`);
+    }
 
     console.log('Module and files created successfully.');
   } catch (error) {
@@ -45,36 +88,34 @@ async function createFolderAndFiles(parentDirectory, folderName) {
   }
 }
 
-const getUserInput = async () => {
-  const readline = require('readline').createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
+async function getUserInput() {
+  return new Promise((resolve) => {
+    const readline = require('readline').createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
 
-  return new Promise(resolve => {
-    readline.question(
-      'Enter the Module name (or "exit" to terminate): ',
-      folderName => {
-        if (folderName.toLowerCase() === 'exit') {
-          readline.close();
-          process.exit(0); // Terminate the process with a successful exit code
-        } else {
-          resolve({ folderName });
-        }
-      }
-    );
+    readline.question('Enter the Module name (or "exit" to terminate): ', (folderName) => {
+      readline.close();
+      resolve(folderName);
+    });
   });
-};
+}
 
-const start = async () => {
+async function start() {
   const parentDirectory = 'src/app/modules';
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const { folderName } = await getUserInput();
+    const folderName = await getUserInput();
+
+    if (folderName.toLowerCase() === 'exit') {
+      process.exit(0);
+    }
 
     await createFolderAndFiles(parentDirectory, folderName);
   }
-};
+}
 
 start();
+
