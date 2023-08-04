@@ -3,23 +3,22 @@ import { IEnrollState, IEnrollStateModel } from './enrollState.interface';
 
 const EnrollStateSchema = new Schema<IEnrollState, IEnrollStateModel>(
   {
-    courseId: {
+    course: {
       type: Schema.Types.ObjectId,
       ref: 'Course',
       required: [true, 'The course ID is required'],
     },
-    userId: {
+    user: {
       type: String,
       required: true,
     },
     currentTopic: {
       type: Schema.Types.ObjectId,
-      ref: 'courseTopic',
-      required: [true, 'The topic ID is required'],
+      ref: 'CourseTopic',
     },
-    finishedCount: {
-      type: Number,
-      default: 0,
+    finishedTopics: {
+      type: [String],
+      default: [],
     },
   },
   {

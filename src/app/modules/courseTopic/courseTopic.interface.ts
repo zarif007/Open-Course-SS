@@ -1,6 +1,7 @@
 import { Model } from 'mongoose';
 
 export type ICourseTopic = {
+  _id?: string;
   id?: string | number;
   topicID?: number;
   versions: [

@@ -1,18 +1,12 @@
+import { Course } from '../course/course.model';
 import { IEnrollState } from './enrollState.interface';
 import { EnrollState } from './enrollState.model';
 
-const getEnrollStateByUserId = async (
-  userId: string
+const getEnrollState = async (
+  user: string,
+  course: string
 ): Promise<IEnrollState | null> => {
-  const result = await EnrollState.findOne({ userId }).populate('currentTopic');
-
-  return result;
-};
-
-const getEnrollStateByCourseId = async (
-  courseId: string
-): Promise<IEnrollState | null> => {
-  const result = await EnrollState.findOne({ courseId }).populate(
+  const result = await EnrollState.findOne({ user, course }).populate(
     'currentTopic'
   );
 
@@ -22,9 +16,13 @@ const getEnrollStateByCourseId = async (
 const createEnrollState = async (
   payload: IEnrollState
 ): Promise<IEnrollState | null> => {
-  const result = await EnrollState.create(payload);
+  const course = await Course.findById(payload.course);
+  const result = await EnrollState.create({
+    ...payload,
+    currentTopic: course?.topics[0]._id,
+  });
 
-  await result.populate('currentTopic');
+  // await result.populate('currentTopic');
   return result;
 };
 
@@ -40,8 +38,7 @@ const updateEnrollStateByUserId = async (
 };
 
 export const EnrollStateService = {
-  getEnrollStateByUserId,
-  getEnrollStateByCourseId,
+  getEnrollState,
   createEnrollState,
   updateEnrollStateByUserId,
 };

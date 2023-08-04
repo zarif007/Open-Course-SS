@@ -10,18 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EnrollStateService = void 0;
+const course_model_1 = require("../course/course.model");
 const enrollState_model_1 = require("./enrollState.model");
-const getEnrollStateByUserId = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield enrollState_model_1.EnrollState.findOne({ userId }).populate('currentTopic');
-    return result;
-});
-const getEnrollStateByCourseId = (courseId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield enrollState_model_1.EnrollState.findOne({ courseId }).populate('currentTopic');
+const getEnrollState = (user, course) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield enrollState_model_1.EnrollState.findOne({ user, course }).populate('currentTopic');
     return result;
 });
 const createEnrollState = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield enrollState_model_1.EnrollState.create(payload);
-    yield result.populate('currentTopic');
+    const course = yield course_model_1.Course.findById(payload.course);
+    const result = yield enrollState_model_1.EnrollState.create(Object.assign(Object.assign({}, payload), { currentTopic: course === null || course === void 0 ? void 0 : course.topics[0]._id }));
+    // await result.populate('currentTopic');
     return result;
 });
 const updateEnrollStateByUserId = (userId, payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,8 +29,7 @@ const updateEnrollStateByUserId = (userId, payload) => __awaiter(void 0, void 0,
     return result;
 });
 exports.EnrollStateService = {
-    getEnrollStateByUserId,
-    getEnrollStateByCourseId,
+    getEnrollState,
     createEnrollState,
     updateEnrollStateByUserId,
 };
