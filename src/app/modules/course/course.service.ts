@@ -14,6 +14,11 @@ const getSingleCourse = async (id: string): Promise<ICourse | null> => {
   return results;
 };
 
+const getSingleCourseBySlug = async (slug: string): Promise<ICourse | null> => {
+  const results = await Course.findOne({ slug }).populate('topics');
+  return results;
+};
+
 const createCourse = async (payload: ICourse): Promise<ICourse | null> => {
   const topicIds: Types.ObjectId[] = [];
 
@@ -47,6 +52,7 @@ const deleteCourse = async (id: string): Promise<ICourse | null> => {
 export const CourseService = {
   getCourses,
   getSingleCourse,
+  getSingleCourseBySlug,
   createCourse,
   updateCourse,
   deleteCourse,

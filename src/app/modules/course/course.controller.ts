@@ -26,6 +26,17 @@ const getSingleCourse = catchAsync(async (req, res) => {
   });
 });
 
+const getSingleCourseBySlug = catchAsync(async (req, res) => {
+  const slug = req.params.slug;
+  const result = await CourseService.getSingleCourseBySlug(slug);
+  sendResponse<ICourse>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Course fetched successfully !',
+    data: result,
+  });
+});
+
 const createCourse = catchAsync(async (req, res) => {
   const course = req.body;
   const result = await CourseService.createCourse(course);
@@ -52,6 +63,7 @@ const updateCourse = catchAsync(async (req, res) => {
 export const CourseController = {
   getCourses,
   getSingleCourse,
+  getSingleCourseBySlug,
   createCourse,
   updateCourse,
 };

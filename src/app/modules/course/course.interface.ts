@@ -18,7 +18,7 @@ export type ICourse = {
   description: string;
   banner?: string;
   topics: ICourseTopic[] | [] | Types.ObjectId[];
-  slug?: string;
+  slug: string;
   tags: string[];
   createdAt?: Date;
   updatedAt?: Date;
