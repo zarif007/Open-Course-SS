@@ -47,6 +47,10 @@ const CourseSchema = new Schema<ICourse, ICourseModel>(
       type: String,
       default: '',
     },
+    slug: {
+      type: String,
+      required: [true, 'Slug is required'],
+    },
     banner: {
       type: String,
       default: '',

@@ -6,20 +6,6 @@ import { Course } from './course.model';
 const getCourses = async (query: object): Promise<ICourse[] | null> => {
   const results = await Course.find(query).populate('topics');
 
-  // // results.forEach((course: ICourse) => {
-  // //   course.creator = await
-  // // })
-
-  // for(const course of results) {
-  //   course.creator = await UserService.getUserById(course.id) ?? '';
-
-  //   for(const contributor of results.contributors) {
-
-  //   }
-  // }
-
-  // // eslint-disable-next-line no-console
-  // console.log(results)
   return results;
 };
 
