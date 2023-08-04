@@ -4,8 +4,8 @@ import { CourseController } from './course.controller';
 const router = Router();
 
 router.get('/', CourseController.getCourses);
-router.get('/:id', CourseController.getSingleCourse);
-router.get('/:slug', CourseController.getSingleCourseBySlug);
+router.get('/byId/:id', CourseController.getSingleCourse);
+router.get('/bySlug/:slug', CourseController.getSingleCourseBySlug);
 router.post('/', CourseController.createCourse);
 router.delete('/:id');
 router.patch('/:id', CourseController.updateCourse);
