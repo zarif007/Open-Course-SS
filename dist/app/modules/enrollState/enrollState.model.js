@@ -18,7 +18,7 @@ const EnrollStateSchema = new mongoose_1.Schema({
     },
     finishedTopics: {
         type: [String],
-        default: ['1'],
+        default: [],
     },
 }, {
     timestamps: true,
