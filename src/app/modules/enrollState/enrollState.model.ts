@@ -18,7 +18,7 @@ const EnrollStateSchema = new Schema<IEnrollState, IEnrollStateModel>(
     },
     finishedTopics: {
       type: [String],
-      default: [],
+      default: ['1'],
     },
   },
   {
