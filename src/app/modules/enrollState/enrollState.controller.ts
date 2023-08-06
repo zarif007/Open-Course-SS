@@ -30,7 +30,19 @@ const createEnrollState = catchAsync(async (req, res) => {
   });
 });
 
+const updateEnrollState = catchAsync(async (req, res) => {
+  const enrollState = req.body;
+  const result = await EnrollStateService.updateEnrollState(enrollState);
+  sendResponse<IEnrollState>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Course updated successfully !',
+    data: result,
+  });
+});
+
 export const EnrollStateController = {
   getEnrollState,
   createEnrollState,
+  updateEnrollState,
 };

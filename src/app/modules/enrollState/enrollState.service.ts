@@ -26,13 +26,16 @@ const createEnrollState = async (
   return result;
 };
 
-const updateEnrollStateByUserId = async (
-  userId: string,
+const updateEnrollState = async (
   payload: IEnrollState
 ): Promise<IEnrollState | null> => {
-  const result = await EnrollState.findOneAndUpdate({ userId }, payload, {
-    new: true,
-  });
+  const result = await EnrollState.findOneAndUpdate(
+    { user: payload.user, course: payload.course },
+    payload,
+    {
+      new: true,
+    }
+  );
 
   return result;
 };
@@ -40,5 +43,5 @@ const updateEnrollStateByUserId = async (
 export const EnrollStateService = {
   getEnrollState,
   createEnrollState,
-  updateEnrollStateByUserId,
+  updateEnrollState,
 };
