@@ -19,6 +19,7 @@ const getEnrollState = (user, course) => __awaiter(void 0, void 0, void 0, funct
 const createEnrollState = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const course = yield course_model_1.Course.findById(payload.course);
     const result = yield enrollState_model_1.EnrollState.create(Object.assign(Object.assign({}, payload), { currentTopic: course === null || course === void 0 ? void 0 : course.topics[0]._id }));
+    yield course_model_1.Course.updateOne({ _id: course === null || course === void 0 ? void 0 : course._id }, { $push: { enrolledUsers: payload.user } });
     // await result.populate('currentTopic');
     return result;
 });

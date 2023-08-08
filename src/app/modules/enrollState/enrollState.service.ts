@@ -1,3 +1,4 @@
+import { ICourse } from '../course/course.interface';
 import { Course } from '../course/course.model';
 import { IEnrollState } from './enrollState.interface';
 import { EnrollState } from './enrollState.model';
@@ -16,12 +17,16 @@ const getEnrollState = async (
 const createEnrollState = async (
   payload: IEnrollState
 ): Promise<IEnrollState | null> => {
-  const course = await Course.findById(payload.course);
+  const course: ICourse | null = await Course.findById(payload.course);
   const result = await EnrollState.create({
     ...payload,
     currentTopic: course?.topics[0]._id,
   });
 
+  await Course.updateOne(
+    { _id: course?._id },
+    { $push: { enrolledUsers: payload.user } }
+  );
   // await result.populate('currentTopic');
   return result;
 };
