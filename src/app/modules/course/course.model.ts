@@ -64,6 +64,15 @@ const CourseSchema = new Schema<ICourse, ICourseModel>(
       type: [String],
       default: [],
     },
+    ratings: {
+      type: [
+        {
+          user: String,
+          rating: Number,
+        },
+      ],
+      default: [],
+    },
   },
   {
     timestamps: true,

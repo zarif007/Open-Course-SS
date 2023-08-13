@@ -20,6 +20,11 @@ export type ICourse = {
   topics: ICourseTopic[] | [] | Types.ObjectId[];
   slug: string;
   tags: string[];
+  status?: 'draft' | 'published';
+  ratings: {
+    user: string;
+    rating: number;
+  }[];
   createdAt?: Date;
   updatedAt?: Date;
   _v?: number;
