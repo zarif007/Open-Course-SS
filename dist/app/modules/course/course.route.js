@@ -9,5 +9,5 @@ router.get('/byId/:id', course_controller_1.CourseController.getSingleCourse);
 router.get('/bySlug/:slug', course_controller_1.CourseController.getSingleCourseBySlug);
 router.post('/', course_controller_1.CourseController.createCourse);
 router.delete('/:id');
-router.patch('/:id', course_controller_1.CourseController.updateCourse);
+router.put('/:id', course_controller_1.CourseController.updateCourse);
 exports.CourseRoutes = router;

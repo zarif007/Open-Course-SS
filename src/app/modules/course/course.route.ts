@@ -8,6 +8,6 @@ router.get('/byId/:id', CourseController.getSingleCourse);
 router.get('/bySlug/:slug', CourseController.getSingleCourseBySlug);
 router.post('/', CourseController.createCourse);
 router.delete('/:id');
-router.patch('/:id', CourseController.updateCourse);
+router.put('/:id', CourseController.updateCourse);
 
 export const CourseRoutes = router;
