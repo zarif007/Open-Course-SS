@@ -1,17 +1,23 @@
 import { IUser } from './user.interface';
-import clerk from '@clerk/clerk-sdk-node';
+import { User } from './user.model';
 
-const getUserById = async (userId: string): Promise<IUser | null> => {
-  const result = await clerk.users.getUser(userId);
-  const user = {
-    id: result?.id,
-    fullName: result?.firstName ?? '' + result?.lastName,
-    imageUrl: result?.imageUrl,
-    email: result?.emailAddresses[0].emailAddress,
-  };
+const getUserByExternalId = async (
+  externalId: string
+): Promise<IUser | null> => {
+  const user = await User.findOne({ externalId });
+  return user;
+};
+
+const upsertUser = async (payload: IUser): Promise<IUser | null> => {
+  const user = await User.findOneAndUpdate(
+    { externalId: payload.externalId },
+    payload,
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
   return user;
 };
 
 export const UserService = {
-  getUserById,
+  getUserByExternalId,
+  upsertUser,
 };
