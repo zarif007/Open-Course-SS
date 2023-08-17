@@ -41,5 +41,5 @@ const upsertUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 }));
 exports.UserController = {
     getUserByExternalId,
-    upsertUser
+    upsertUser,
 };

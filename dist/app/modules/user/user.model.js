@@ -9,11 +9,11 @@ exports.UserSchema = new mongoose_1.Schema({
     },
     attributes: {
         type: Object,
-        default: {}
+        default: {},
     },
     role: {
         type: String,
         default: 'user',
-    }
+    },
 });
 exports.User = (0, mongoose_1.model)('User', exports.UserSchema);
