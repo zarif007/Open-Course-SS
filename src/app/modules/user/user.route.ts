@@ -3,7 +3,7 @@ import { UserController } from './user.controller';
 
 const router = Router();
 
-router.get('/byExternalId/:externalId', UserController.getUserByExternalId);
+router.get('/byClerkId/:clerkId', UserController.getUserByClerkId);
 router.post('/', UserController.upsertUser);
 
 export const UserRoutes = router;

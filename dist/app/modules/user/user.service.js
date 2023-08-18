@@ -8,18 +8,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
+const envConfig_1 = __importDefault(require("../../../config/envConfig"));
 const user_model_1 = require("./user.model");
-const getUserByExternalId = (externalId) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield user_model_1.User.findOne({ externalId });
-    return user;
+const getUserByClerkId = (clerkId) => __awaiter(void 0, void 0, void 0, function* () {
+    const clerkApiUrl = `https://api.clerk.dev/v1/users/${clerkId}`;
+    const clerkHeaders = {
+        'Authorization': `Bearer ${envConfig_1.default.clerk_secret_key}`
+    };
+    const clerkResponse = yield fetch(clerkApiUrl, { headers: clerkHeaders });
+    const clerkData = yield clerkResponse.json();
+    const user = {
+        externalId: clerkData.id,
+        attributes: Object.assign({}, clerkData)
+    };
+    return clerkData.errors ? null : user;
 });
 const upsertUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.User.findOneAndUpdate({ externalId: payload.externalId }, payload, { upsert: true, new: true, setDefaultsOnInsert: true });
     return user;
 });
 exports.UserService = {
-    getUserByExternalId,
+    getUserByClerkId,
     upsertUser,
 };

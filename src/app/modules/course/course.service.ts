@@ -2,6 +2,7 @@ import { Types } from 'mongoose';
 import { CourseTopic } from '../courseTopic/courseTopic.model';
 import { ICourse } from './course.interface';
 import { Course } from './course.model';
+import { UserService } from '../user/user.service';
 
 const getCourses = async (query: object): Promise<ICourse[] | null> => {
   const results = await Course.find(query).populate('topics');
@@ -11,6 +12,10 @@ const getCourses = async (query: object): Promise<ICourse[] | null> => {
 
 const getSingleCourse = async (id: string): Promise<ICourse | null> => {
   const results = await Course.findById(id).populate('topics');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const creator = await UserService.getUserByClerkId(
+    results?.creator as string
+  );
   return results;
 };
 

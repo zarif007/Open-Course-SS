@@ -12,12 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseService = void 0;
 const courseTopic_model_1 = require("../courseTopic/courseTopic.model");
 const course_model_1 = require("./course.model");
+const user_service_1 = require("../user/user.service");
 const getCourses = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const results = yield course_model_1.Course.find(query).populate('topics');
     return results;
 });
 const getSingleCourse = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const results = yield course_model_1.Course.findById(id).populate('topics');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const creator = yield user_service_1.UserService.getUserByClerkId(results === null || results === void 0 ? void 0 : results.creator);
     return results;
 });
 const getSingleCourseBySlug = (slug) => __awaiter(void 0, void 0, void 0, function* () {

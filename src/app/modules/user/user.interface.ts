@@ -37,7 +37,7 @@ export type IUser = {
   _id?: string;
   externalId: string;
   attributes: UserAttributes;
-  role: 'super_admin' | 'admin' | 'user' | 'pro_User';
+  role?: 'super_admin' | 'admin' | 'user' | 'pro_User';
 };
 
 export type IUserModel = Model<IUser, Record<string, unknown>>;
