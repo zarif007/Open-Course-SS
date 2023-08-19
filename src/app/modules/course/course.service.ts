@@ -18,6 +18,7 @@ const getCourses = async (query: object): Promise<ICourse[] | null> => {
     courses.push({
       ...course.toObject(),
       creator: (await getCreator(course.creator as string)) as IUser,
+      id: course._id,
     });
   }
 
@@ -30,6 +31,7 @@ const getSingleCourse = async (id: string): Promise<ICourse | null> => {
   const course = {
     ...result?.toObject(),
     creator: await getCreator(result?.creator as string),
+    id: result?._id,
   };
 
   return course as ICourse;
@@ -41,6 +43,7 @@ const getSingleCourseBySlug = async (slug: string): Promise<ICourse | null> => {
   const course = {
     ...result?.toObject(),
     creator: await getCreator(result?.creator as string),
+    id: result?._id,
   };
 
   return course as ICourse;

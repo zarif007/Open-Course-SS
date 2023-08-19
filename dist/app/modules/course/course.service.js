@@ -21,18 +21,18 @@ const getCourses = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const results = yield course_model_1.Course.find(query).populate('topics');
     const courses = [];
     for (const course of results) {
-        courses.push(Object.assign(Object.assign({}, course.toObject()), { creator: yield getCreator(course.creator) }));
+        courses.push(Object.assign(Object.assign({}, course.toObject()), { creator: (yield getCreator(course.creator)), id: course._id }));
     }
     return courses;
 });
 const getSingleCourse = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_model_1.Course.findById(id).populate('topics');
-    const course = Object.assign(Object.assign({}, result === null || result === void 0 ? void 0 : result.toObject()), { creator: yield getCreator(result === null || result === void 0 ? void 0 : result.creator) });
+    const course = Object.assign(Object.assign({}, result === null || result === void 0 ? void 0 : result.toObject()), { creator: yield getCreator(result === null || result === void 0 ? void 0 : result.creator), id: result === null || result === void 0 ? void 0 : result._id });
     return course;
 });
 const getSingleCourseBySlug = (slug) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_model_1.Course.findOne({ slug }).populate('topics');
-    const course = Object.assign(Object.assign({}, result === null || result === void 0 ? void 0 : result.toObject()), { creator: yield getCreator(result === null || result === void 0 ? void 0 : result.creator) });
+    const course = Object.assign(Object.assign({}, result === null || result === void 0 ? void 0 : result.toObject()), { creator: yield getCreator(result === null || result === void 0 ? void 0 : result.creator), id: result === null || result === void 0 ? void 0 : result._id });
     return course;
 });
 const createCourse = (payload) => __awaiter(void 0, void 0, void 0, function* () {
