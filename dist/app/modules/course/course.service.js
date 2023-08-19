@@ -21,7 +21,8 @@ const getSingleCourse = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const results = yield course_model_1.Course.findById(id).populate('topics');
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const creator = yield user_service_1.UserService.getUserByClerkId(results === null || results === void 0 ? void 0 : results.creator);
-    return results;
+    const course = Object.assign(Object.assign({}, results === null || results === void 0 ? void 0 : results.toObject()), { creator: creator });
+    return course;
 });
 const getSingleCourseBySlug = (slug) => __awaiter(void 0, void 0, void 0, function* () {
     const results = yield course_model_1.Course.findOne({ slug }).populate('topics');

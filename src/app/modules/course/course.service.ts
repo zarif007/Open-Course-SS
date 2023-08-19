@@ -3,6 +3,7 @@ import { CourseTopic } from '../courseTopic/courseTopic.model';
 import { ICourse } from './course.interface';
 import { Course } from './course.model';
 import { UserService } from '../user/user.service';
+import { IUser } from '../user/user.interface';
 
 const getCourses = async (query: object): Promise<ICourse[] | null> => {
   const results = await Course.find(query).populate('topics');
@@ -13,10 +14,16 @@ const getCourses = async (query: object): Promise<ICourse[] | null> => {
 const getSingleCourse = async (id: string): Promise<ICourse | null> => {
   const results = await Course.findById(id).populate('topics');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const creator = await UserService.getUserByClerkId(
+  const creator: IUser | null = await UserService.getUserByClerkId(
     results?.creator as string
   );
-  return results;
+
+  const course = {
+    ...results?.toObject(),
+    creator: creator as IUser,
+  };
+
+  return course as ICourse;
 };
 
 const getSingleCourseBySlug = async (slug: string): Promise<ICourse | null> => {

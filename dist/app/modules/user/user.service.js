@@ -18,13 +18,22 @@ const user_model_1 = require("./user.model");
 const getUserByClerkId = (clerkId) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkApiUrl = `https://api.clerk.dev/v1/users/${clerkId}`;
     const clerkHeaders = {
-        'Authorization': `Bearer ${envConfig_1.default.clerk_secret_key}`
+        Authorization: `Bearer ${envConfig_1.default.clerk_secret_key}`,
     };
     const clerkResponse = yield fetch(clerkApiUrl, { headers: clerkHeaders });
     const clerkData = yield clerkResponse.json();
     const user = {
         externalId: clerkData.id,
-        attributes: Object.assign({}, clerkData)
+        attributes: {
+            username: clerkData.username,
+            image_url: clerkData.image_url,
+            last_name: clerkData.last_name,
+            first_name: clerkData.first_name,
+            created_at: clerkData.created_at,
+            updated_at: clerkData.updated_at,
+            external_id: clerkData.external_id,
+            email_addresses: clerkData.email_addresses,
+        },
     };
     return clerkData.errors ? null : user;
 });
