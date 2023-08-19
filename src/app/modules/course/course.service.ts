@@ -71,7 +71,14 @@ const updateCourse = async (
   const result = await Course.findOneAndUpdate({ _id: id }, payload, {
     new: true,
   });
-  return result;
+
+  const course = {
+    ...result?.toObject(),
+    creator: await getCreator(result?.creator as string),
+    id: result?._id,
+  };
+
+  return course as ICourse;
 };
 
 const deleteCourse = async (id: string): Promise<ICourse | null> => {
