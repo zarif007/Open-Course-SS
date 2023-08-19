@@ -5,30 +5,45 @@ import { Course } from './course.model';
 import { UserService } from '../user/user.service';
 import { IUser } from '../user/user.interface';
 
+const getCreator = async (id: string): Promise<IUser | null> => {
+  return await UserService.getUserByClerkId(id as string);
+};
+
 const getCourses = async (query: object): Promise<ICourse[] | null> => {
   const results = await Course.find(query).populate('topics');
 
-  return results;
+  const courses: ICourse[] = [];
+
+  for (const course of results) {
+    courses.push({
+      ...course.toObject(),
+      creator: (await getCreator(course.creator as string)) as IUser,
+    });
+  }
+
+  return courses;
 };
 
 const getSingleCourse = async (id: string): Promise<ICourse | null> => {
-  const results = await Course.findById(id).populate('topics');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const creator: IUser | null = await UserService.getUserByClerkId(
-    results?.creator as string
-  );
+  const result = await Course.findById(id).populate('topics');
 
   const course = {
-    ...results?.toObject(),
-    creator: creator as IUser,
+    ...result?.toObject(),
+    creator: await getCreator(result?.creator as string),
   };
 
   return course as ICourse;
 };
 
 const getSingleCourseBySlug = async (slug: string): Promise<ICourse | null> => {
-  const results = await Course.findOne({ slug }).populate('topics');
-  return results;
+  const result = await Course.findOne({ slug }).populate('topics');
+
+  const course = {
+    ...result?.toObject(),
+    creator: await getCreator(result?.creator as string),
+  };
+
+  return course as ICourse;
 };
 
 const createCourse = async (payload: ICourse): Promise<ICourse | null> => {
@@ -37,7 +52,7 @@ const createCourse = async (payload: ICourse): Promise<ICourse | null> => {
   // Creating topics and storing _ids at the course
   for (const topic of payload.topics) {
     const res = await CourseTopic.create(topic);
-    topicIds.push(res._id);
+    topicIds.push(new Types.ObjectId(res._id.toString()));
   }
 
   const result = await Course.create({ ...payload, topics: topicIds });
