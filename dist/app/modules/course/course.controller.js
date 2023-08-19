@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseController = void 0;
+/* eslint-disable no-console */
 const http_status_1 = __importDefault(require("http-status"));
 const course_service_1 = require("./course.service");
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
@@ -30,6 +31,7 @@ const getCourses = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 const getSingleCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const result = yield course_service_1.CourseService.getSingleCourse(id);
+    console.log(result);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

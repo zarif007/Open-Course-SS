@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import httpStatus from 'http-status';
 import { ICourse } from './course.interface';
 import { CourseService } from './course.service';
@@ -18,6 +19,7 @@ const getCourses = catchAsync(async (req, res) => {
 const getSingleCourse = catchAsync(async (req, res) => {
   const id = req.params.id;
   const result = await CourseService.getSingleCourse(id);
+  console.log(result);
   sendResponse<ICourse>(res, {
     statusCode: httpStatus.OK,
     success: true,
