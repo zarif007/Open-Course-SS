@@ -27,10 +27,13 @@ const getUserByClerkId = async (clerkId: string): Promise<IUser | null> => {
   return clerkData.errors ? null : user;
 };
 
-const upsertUser = async (payload: IUser): Promise<IUser | null> => {
+const upsertUser = async (clerkId: string): Promise<IUser | null> => {
+  const clerkData = await getUserByClerkId(clerkId);
+
+  if (!clerkData) return null;
   const user = await User.findOneAndUpdate(
-    { externalId: payload.externalId },
-    payload,
+    { externalId: clerkData.externalId },
+    clerkData,
     { upsert: true, new: true, setDefaultsOnInsert: true }
   );
   return user;

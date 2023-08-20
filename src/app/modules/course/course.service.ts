@@ -3,54 +3,40 @@ import { CourseTopic } from '../courseTopic/courseTopic.model';
 import { ICourse } from './course.interface';
 import { Course } from './course.model';
 import { UserService } from '../user/user.service';
-import { IUser } from '../user/user.interface';
 
-const getCreator = async (id: string): Promise<IUser | null> => {
-  return await UserService.getUserByClerkId(id as string);
-};
+// const getCreator = async (id: string): Promise<IUser | null> => {
+//   return await UserService.getUserByClerkId(id as string);
+// };
 
 const getCourses = async (query: object): Promise<ICourse[] | null> => {
-  const results = await Course.find(query).populate('topics');
+  const results = await Course.find(query)
+    .populate('topics')
+    .populate('creator');
 
-  const courses: ICourse[] = [];
-
-  for (const course of results) {
-    courses.push({
-      ...course.toObject(),
-      creator: (await getCreator(course.creator as string)) as IUser,
-      id: course._id,
-    });
-  }
-
-  return courses;
+  return results;
 };
 
 const getSingleCourse = async (id: string): Promise<ICourse | null> => {
-  const result = await Course.findById(id).populate('topics');
+  const result = await Course.findById(id)
+    .populate('topics')
+    .populate('creator');
 
-  const course = {
-    ...result?.toObject(),
-    creator: await getCreator(result?.creator as string),
-    id: result?._id,
-  };
-
-  return course as ICourse;
+  return result;
 };
 
 const getSingleCourseBySlug = async (slug: string): Promise<ICourse | null> => {
-  const result = await Course.findOne({ slug }).populate('topics');
+  const result = await Course.findOne({ slug })
+    .populate('topics')
+    .populate('creator');
 
-  const course = {
-    ...result?.toObject(),
-    creator: await getCreator(result?.creator as string),
-    id: result?._id,
-  };
-
-  return course as ICourse;
+  return result;
 };
 
 const createCourse = async (payload: ICourse): Promise<ICourse | null> => {
   const topicIds: Types.ObjectId[] = [];
+
+  // Upsert User
+  const user = await UserService.upsertUser(payload.creator as string);
 
   // Creating topics and storing _ids at the course
   for (const topic of payload.topics) {
@@ -58,9 +44,14 @@ const createCourse = async (payload: ICourse): Promise<ICourse | null> => {
     topicIds.push(new Types.ObjectId(res._id.toString()));
   }
 
-  const result = await Course.create({ ...payload, topics: topicIds });
+  const result = await Course.create({
+    ...payload,
+    topics: topicIds,
+    creator: user?._id ?? (payload.creator as string),
+  });
 
   await result.populate('topics');
+  await result.populate('creator');
   return result;
 };
 
@@ -72,13 +63,11 @@ const updateCourse = async (
     new: true,
   });
 
-  const course = {
-    ...result?.toObject(),
-    creator: await getCreator(result?.creator as string),
-    id: result?._id,
-  };
-
-  return course as ICourse;
+  if (result) {
+    await result.populate('topics');
+    await result.populate('creator');
+  }
+  return result;
 };
 
 const deleteCourse = async (id: string): Promise<ICourse | null> => {
