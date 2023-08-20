@@ -18,15 +18,21 @@ const user_service_1 = require("../user/user.service");
 //   return await UserService.getUserByClerkId(id as string);
 // };
 const getCourses = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const results = yield course_model_1.Course.find(query).populate('topics').populate('creator');
+    const results = yield course_model_1.Course.find(query)
+        .populate('topics')
+        .populate('creator');
     return results;
 });
 const getSingleCourse = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield course_model_1.Course.findById(id).populate('topics').populate('creator');
+    const result = yield course_model_1.Course.findById(id)
+        .populate('topics')
+        .populate('creator');
     return result;
 });
 const getSingleCourseBySlug = (slug) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield course_model_1.Course.findOne({ slug }).populate('topics').populate('creator');
+    const result = yield course_model_1.Course.findOne({ slug })
+        .populate('topics')
+        .populate('creator');
     return result;
 });
 const createCourse = (payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -40,8 +46,8 @@ const createCourse = (payload) => __awaiter(void 0, void 0, void 0, function* ()
         topicIds.push(new mongoose_1.Types.ObjectId(res._id.toString()));
     }
     const result = yield course_model_1.Course.create(Object.assign(Object.assign({}, payload), { topics: topicIds, creator: (_a = user === null || user === void 0 ? void 0 : user._id) !== null && _a !== void 0 ? _a : payload.creator }));
-    (yield result.populate('topics'));
-    (yield result.populate('creator'));
+    yield result.populate('topics');
+    yield result.populate('creator');
     return result;
 });
 const updateCourse = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -49,8 +55,8 @@ const updateCourse = (id, payload) => __awaiter(void 0, void 0, void 0, function
         new: true,
     });
     if (result) {
-        (yield result.populate('topics'));
-        (yield result.populate('creator'));
+        yield result.populate('topics');
+        yield result.populate('creator');
     }
     return result;
 });
