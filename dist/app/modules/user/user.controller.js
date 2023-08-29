@@ -17,13 +17,23 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const user_service_1 = require("./user.service");
+const getUserByExternalId = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { externalId } = req.params;
+    const result = yield user_service_1.UserService.getUserByExternalId(externalId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: result ? http_status_1.default.OK : http_status_1.default.NOT_FOUND,
+        success: result ? true : false,
+        message: `User By ExternalId fetched ${!result && 'un'}successfully !`,
+        data: result,
+    });
+}));
 const getUserByClerkId = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { clerkId } = req.params;
     const result = yield user_service_1.UserService.getUserByClerkId(clerkId);
     (0, sendResponse_1.default)(res, {
         statusCode: result ? http_status_1.default.OK : http_status_1.default.NOT_FOUND,
         success: result ? true : false,
-        message: `UserByClerkId fetched ${!result && 'un'}successfully !`,
+        message: `User By ClerkId fetched ${!result && 'un'}successfully !`,
         data: result,
     });
 }));
@@ -38,6 +48,7 @@ const upsertUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     });
 }));
 exports.UserController = {
+    getUserByExternalId,
     getUserByClerkId,
     upsertUser,
 };

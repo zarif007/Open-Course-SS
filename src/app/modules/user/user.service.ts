@@ -2,6 +2,13 @@ import envConfig from '../../../config/envConfig';
 import { IUser } from './user.interface';
 import { User } from './user.model';
 
+const getUserByExternalId = async (
+  externalId: string
+): Promise<IUser | null> => {
+  const user = await User.findOne({ externalId });
+  return user;
+};
+
 const getUserByClerkId = async (clerkId: string): Promise<IUser | null> => {
   const clerkApiUrl = `https://api.clerk.dev/v1/users/${clerkId}`;
   const clerkHeaders = {
@@ -40,6 +47,7 @@ const upsertUser = async (clerkId: string): Promise<IUser | null> => {
 };
 
 export const UserService = {
+  getUserByExternalId,
   getUserByClerkId,
   upsertUser,
 };

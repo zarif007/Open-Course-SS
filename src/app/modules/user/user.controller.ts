@@ -4,13 +4,24 @@ import sendResponse from '../../../shared/sendResponse';
 import { IUser } from './user.interface';
 import { UserService } from './user.service';
 
+const getUserByExternalId = catchAsync(async (req, res) => {
+  const { externalId } = req.params;
+  const result = await UserService.getUserByExternalId(externalId);
+  sendResponse<IUser | null>(res, {
+    statusCode: result ? httpStatus.OK : httpStatus.NOT_FOUND,
+    success: result ? true : false,
+    message: `User By ExternalId fetched ${!result && 'un'}successfully !`,
+    data: result,
+  });
+});
+
 const getUserByClerkId = catchAsync(async (req, res) => {
   const { clerkId } = req.params;
   const result = await UserService.getUserByClerkId(clerkId);
   sendResponse<IUser | null>(res, {
     statusCode: result ? httpStatus.OK : httpStatus.NOT_FOUND,
     success: result ? true : false,
-    message: `UserByClerkId fetched ${!result && 'un'}successfully !`,
+    message: `User By ClerkId fetched ${!result && 'un'}successfully !`,
     data: result,
   });
 });
@@ -27,6 +38,7 @@ const upsertUser = catchAsync(async (req, res) => {
 });
 
 export const UserController = {
+  getUserByExternalId,
   getUserByClerkId,
   upsertUser,
 };

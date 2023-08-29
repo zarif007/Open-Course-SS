@@ -38,6 +38,7 @@ export type IUser = {
   externalId: string;
   attributes: UserAttributes;
   role?: 'super_admin' | 'admin' | 'user' | 'pro_User';
+  preferences?: string[];
 };
 
 export type IUserModel = Model<IUser, Record<string, unknown>>;

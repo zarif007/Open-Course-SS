@@ -15,5 +15,9 @@ exports.UserSchema = new mongoose_1.Schema({
         type: String,
         default: 'user',
     },
+    preferences: {
+        type: [String],
+        default: [],
+    }
 });
 exports.User = (0, mongoose_1.model)('User', exports.UserSchema);
