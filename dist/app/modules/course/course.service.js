@@ -39,7 +39,7 @@ const createCourse = (payload) => __awaiter(void 0, void 0, void 0, function* ()
     var _a;
     const topicIds = [];
     // Upsert User
-    const user = yield user_service_1.UserService.upsertUser(payload.creator);
+    const user = yield user_service_1.UserService.getUserByExternalId(payload.creator);
     // Creating topics and storing _ids at the course
     for (const topic of payload.topics) {
         const res = yield courseTopic_model_1.CourseTopic.create(topic);

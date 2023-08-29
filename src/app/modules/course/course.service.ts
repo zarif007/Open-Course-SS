@@ -36,7 +36,7 @@ const createCourse = async (payload: ICourse): Promise<ICourse | null> => {
   const topicIds: Types.ObjectId[] = [];
 
   // Upsert User
-  const user = await UserService.upsertUser(payload.creator as string);
+  const user = await UserService.getUserByExternalId(payload.creator as string);
 
   // Creating topics and storing _ids at the course
   for (const topic of payload.topics) {
