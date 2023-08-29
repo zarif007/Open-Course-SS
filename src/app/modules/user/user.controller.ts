@@ -7,10 +7,10 @@ import { UserService } from './user.service';
 const getUserByExternalId = catchAsync(async (req, res) => {
   const { externalId } = req.params;
   const result = await UserService.getUserByExternalId(externalId);
-  sendResponse<IUser | null>(res, {
-    statusCode: result ? httpStatus.OK : httpStatus.NOT_FOUND,
-    success: result ? true : false,
-    message: `User By ExternalId fetched ${!result && 'un'}successfully !`,
+  sendResponse<IUser>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: `User By ExternalId fetched successfully !`,
     data: result,
   });
 });

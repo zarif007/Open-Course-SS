@@ -21,9 +21,9 @@ const getUserByExternalId = (0, catchAsync_1.default)((req, res) => __awaiter(vo
     const { externalId } = req.params;
     const result = yield user_service_1.UserService.getUserByExternalId(externalId);
     (0, sendResponse_1.default)(res, {
-        statusCode: result ? http_status_1.default.OK : http_status_1.default.NOT_FOUND,
-        success: result ? true : false,
-        message: `User By ExternalId fetched ${!result && 'un'}successfully !`,
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: `User By ExternalId fetched successfully !`,
         data: result,
     });
 }));
