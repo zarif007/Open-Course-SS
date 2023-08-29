@@ -34,6 +34,16 @@ const getUserByClerkId = async (clerkId: string): Promise<IUser | null> => {
   return clerkData.errors ? null : user;
 };
 
+const createUser = async (payload: IUser): Promise<IUser | null> => {
+  const user = await User.findOneAndUpdate(
+    { externalId: payload.externalId },
+    payload,
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
+
+  return user;
+};
+
 const upsertUser = async (clerkId: string): Promise<IUser | null> => {
   const clerkData = await getUserByClerkId(clerkId);
 
@@ -49,5 +59,6 @@ const upsertUser = async (clerkId: string): Promise<IUser | null> => {
 export const UserService = {
   getUserByExternalId,
   getUserByClerkId,
+  createUser,
   upsertUser,
 };

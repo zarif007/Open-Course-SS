@@ -5,6 +5,6 @@ const router = Router();
 
 router.get('/byClerkId/:clerkId', UserController.getUserByClerkId);
 router.get('/byExternalId/:externalId', UserController.getUserByExternalId);
-router.post('/', UserController.upsertUser);
+router.post('/', UserController.createUser);
 
 export const UserRoutes = router;
