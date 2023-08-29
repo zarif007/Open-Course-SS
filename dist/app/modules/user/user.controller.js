@@ -37,6 +37,16 @@ const getUserByClerkId = (0, catchAsync_1.default)((req, res) => __awaiter(void 
         data: result,
     });
 }));
+const createUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const payload = req.body;
+    const result = yield user_service_1.UserService.createUser(payload);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.CREATED,
+        success: true,
+        message: 'User created successfully !',
+        data: result,
+    });
+}));
 const upsertUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const payload = req.body;
     const result = yield user_service_1.UserService.upsertUser(payload);
@@ -50,5 +60,6 @@ const upsertUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 exports.UserController = {
     getUserByExternalId,
     getUserByClerkId,
+    createUser,
     upsertUser,
 };

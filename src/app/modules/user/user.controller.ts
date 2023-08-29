@@ -26,6 +26,17 @@ const getUserByClerkId = catchAsync(async (req, res) => {
   });
 });
 
+const createUser = catchAsync(async (req, res) => {
+  const payload = req.body;
+  const result = await UserService.createUser(payload);
+  sendResponse<IUser>(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'User created successfully !',
+    data: result,
+  });
+});
+
 const upsertUser = catchAsync(async (req, res) => {
   const payload = req.body;
   const result = await UserService.upsertUser(payload);
@@ -40,5 +51,6 @@ const upsertUser = catchAsync(async (req, res) => {
 export const UserController = {
   getUserByExternalId,
   getUserByClerkId,
+  createUser,
   upsertUser,
 };

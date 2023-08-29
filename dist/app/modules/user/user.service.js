@@ -41,6 +41,10 @@ const getUserByClerkId = (clerkId) => __awaiter(void 0, void 0, void 0, function
     };
     return clerkData.errors ? null : user;
 });
+const createUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.User.create(payload);
+    return user;
+});
 const upsertUser = (clerkId) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkData = yield getUserByClerkId(clerkId);
     if (!clerkData)
@@ -51,5 +55,6 @@ const upsertUser = (clerkId) => __awaiter(void 0, void 0, void 0, function* () {
 exports.UserService = {
     getUserByExternalId,
     getUserByClerkId,
+    createUser,
     upsertUser,
 };
