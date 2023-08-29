@@ -20,8 +20,9 @@ const CourseSchema = new mongoose_1.Schema({
         default: true,
     },
     creator: {
-        type: String,
-        required: [true, 'Creator is required'],
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'Author is required'],
     },
     contributors: {
         type: [String],

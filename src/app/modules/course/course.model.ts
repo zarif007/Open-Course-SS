@@ -20,8 +20,9 @@ const CourseSchema = new Schema<ICourse, ICourseModel>(
       default: true,
     },
     creator: {
-      type: String,
-      required: [true, 'Creator is required'],
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'Author is required'],
     },
     contributors: {
       type: [String],
