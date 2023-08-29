@@ -7,15 +7,15 @@ title: OpenCourse Backend - Empowering Online Learning
 1. [Introduction](#opencourse-backend)
 2. [Features](#features)
 3. [Technologies Used](#technologies-used)
-4. [Getting Started](#getting-started)
-5. [Deployment](#deployment)
+4. [Deployment](#deployment)
+5. [Getting Started](#getting-started)
 6. [License](#license)
 
 # OpenCourse Backend
 
 OpenCourse Backend is the robust and scalable server-side component of the OpenCourse platform. It's built with modern technologies to handle user authentication, course management, and data storage. This backend system serves as the foundation for the OpenCourse web application, allowing users to create, enroll in, and manage courses effortlessly.
 
-![logo](https://i.ibb.co/j6qYsnz/Open-Course-3-1.jpg)
+![OpenCourse Screenshot](https://i.ibb.co/f1LRtYd/1.png)
 
 <!-- ![OpenCourse Backend Architecture](./images/architecture.png) -->
 
