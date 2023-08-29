@@ -42,7 +42,7 @@ const getUserByClerkId = (clerkId) => __awaiter(void 0, void 0, void 0, function
     return clerkData.errors ? null : user;
 });
 const createUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield user_model_1.User.create(payload);
+    const user = yield user_model_1.User.findOneAndUpdate({ externalId: payload.externalId }, payload, { upsert: true, new: true, setDefaultsOnInsert: true });
     return user;
 });
 const upsertUser = (clerkId) => __awaiter(void 0, void 0, void 0, function* () {

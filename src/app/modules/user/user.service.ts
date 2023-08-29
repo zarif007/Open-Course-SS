@@ -35,7 +35,11 @@ const getUserByClerkId = async (clerkId: string): Promise<IUser | null> => {
 };
 
 const createUser = async (payload: IUser): Promise<IUser | null> => {
-  const user = await User.create(payload);
+  const user = await User.findOneAndUpdate(
+    { externalId: payload.externalId },
+    payload,
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
 
   return user;
 };
