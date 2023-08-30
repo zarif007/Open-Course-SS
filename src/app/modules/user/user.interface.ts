@@ -39,6 +39,8 @@ export type IUser = {
   attributes: UserAttributes;
   role?: 'super_admin' | 'admin' | 'user' | 'pro_User';
   preferences?: string[];
+  bio?: string;
+  userName?: string;
 };
 
 export type IUserModel = Model<IUser, Record<string, unknown>>;

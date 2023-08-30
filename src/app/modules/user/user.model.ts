@@ -18,6 +18,14 @@ export const UserSchema = new Schema<IUser, IUserModel>({
     type: [String],
     default: [],
   },
+  bio: {
+    type: String,
+    default: '',
+  },
+  userName: {
+    type: String,
+    default: '',
+  },
 });
 
 export const User = model<IUser, IUserModel>('User', UserSchema);

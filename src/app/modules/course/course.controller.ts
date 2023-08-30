@@ -42,10 +42,10 @@ const getSingleCourseBySlug = catchAsync(async (req, res) => {
 const createCourse = catchAsync(async (req, res) => {
   const course = req.body;
   const result = await CourseService.createCourse(course);
-  sendResponse<ICourse>(res, {
-    statusCode: httpStatus.CREATED,
-    success: true,
-    message: 'Course created successfully !',
+  sendResponse<ICourse | null>(res, {
+    statusCode: result ? httpStatus.CREATED : httpStatus.FORBIDDEN,
+    success: result ? true : false,
+    message: `Course created ${!result && 'un'}successfully !`,
     data: result,
   });
 });

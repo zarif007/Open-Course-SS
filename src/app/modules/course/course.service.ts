@@ -38,6 +38,8 @@ const createCourse = async (payload: ICourse): Promise<ICourse | null> => {
   // Upsert User
   const user = await UserService.getUserByExternalId(payload.creator as string);
 
+  if (!user) return null;
+
   // Creating topics and storing _ids at the course
   for (const topic of payload.topics) {
     const res = await CourseTopic.create(topic);
@@ -47,7 +49,7 @@ const createCourse = async (payload: ICourse): Promise<ICourse | null> => {
   const result = await Course.create({
     ...payload,
     topics: topicIds,
-    creator: user?._id ?? (payload.creator as string),
+    creator: user?._id,
   });
 
   await result.populate('topics');
