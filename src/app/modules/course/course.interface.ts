@@ -31,3 +31,13 @@ export type ICourse = {
 };
 
 export type ICourseModel = Model<ICourse, Record<string, unknown>>;
+
+export type ICourseFilters = {
+  searchTerm?: string;
+  tags?: string[];
+  creator?: string;
+  categories?: string[];
+  levels?: string[];
+  languages?: string[];
+  ratings?: string[];
+};

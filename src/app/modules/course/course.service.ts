@@ -1,19 +1,74 @@
-import { Types } from 'mongoose';
+import { SortOrder, Types } from 'mongoose';
 import { CourseTopic } from '../courseTopic/courseTopic.model';
-import { ICourse } from './course.interface';
+import { ICourse, ICourseFilters } from './course.interface';
 import { Course } from './course.model';
 import { UserService } from '../user/user.service';
+import { IPaginationOptions } from '../../../interfaces/pagination';
+import { courseSearchableFields } from './course.constants';
+import { paginationHelpers } from '../../../helpers/paginationHelpers';
+import { IGenericResponse } from '../../../interfaces/common';
 
 // const getCreator = async (id: string): Promise<IUser | null> => {
 //   return await UserService.getUserByClerkId(id as string);
 // };
 
-const getCourses = async (query: object): Promise<ICourse[] | null> => {
-  const results = await Course.find(query)
-    .populate('topics')
-    .populate('creator');
+const getCourses = async (
+  filters: ICourseFilters,
+  paginationOptions: IPaginationOptions
+): Promise<IGenericResponse<ICourse[]>> => {
+  const { searchTerm, ...filtersData } = filters;
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(paginationOptions);
 
-  return results;
+  const andConditions = [];
+  // Search needs $or for searching in specified fields
+  if (searchTerm) {
+    andConditions.push({
+      $or: courseSearchableFields.map(field => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: 'i',
+        },
+      })),
+    });
+  }
+  // Filters needs $and to full fill all the conditions
+  if (Object.keys(filtersData).length) {
+    andConditions.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    });
+  }
+
+  // Dynamic  Sort needs  field to  do sorting
+  const sortConditions: { [key: string]: SortOrder } = {};
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+  const whereConditions =
+    andConditions.length > 0 ? { $and: andConditions } : {};
+
+  const result = await Course.find(whereConditions)
+    .populate('topics')
+    .populate('creator')
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Course.countDocuments(whereConditions)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 
 const getSingleCourse = async (id: string): Promise<ICourse | null> => {

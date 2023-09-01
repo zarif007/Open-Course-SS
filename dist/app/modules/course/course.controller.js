@@ -18,20 +18,24 @@ const http_status_1 = __importDefault(require("http-status"));
 const course_service_1 = require("./course.service");
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
+const pick_1 = __importDefault(require("../../../shared/pick"));
+const course_constants_1 = require("./course.constants");
+const pagination_1 = require("../../../constants/pagination");
 const getCourses = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.query;
-    const result = yield course_service_1.CourseService.getCourses(id ? { _id: id } : {});
+    const filters = (0, pick_1.default)(req.query, course_constants_1.courseFilterableFields);
+    const paginationOptions = (0, pick_1.default)(req.query, pagination_1.paginationFields);
+    const result = yield course_service_1.CourseService.getCourses(filters, paginationOptions);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
         message: 'Courses fetched successfully !',
-        data: result,
+        meta: result.meta,
+        data: result.data,
     });
 }));
 const getSingleCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const result = yield course_service_1.CourseService.getSingleCourse(id);
-    console.log(result);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -55,7 +59,7 @@ const createCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
     (0, sendResponse_1.default)(res, {
         statusCode: result ? http_status_1.default.CREATED : http_status_1.default.FORBIDDEN,
         success: result ? true : false,
-        message: `Course created ${!result && 'un'}successfully !`,
+        message: result ? `Course created successfully !` : 'Course creation failed !',
         data: result,
     });
 }));

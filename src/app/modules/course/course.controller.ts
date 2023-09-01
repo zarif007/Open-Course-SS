@@ -4,22 +4,27 @@ import { ICourse } from './course.interface';
 import { CourseService } from './course.service';
 import sendResponse from '../../../shared/sendResponse';
 import catchAsync from '../../../shared/catchAsync';
+import pick from '../../../shared/pick';
+import { courseFilterableFields } from './course.constants';
+import { paginationFields } from '../../../constants/pagination';
 
 const getCourses = catchAsync(async (req, res) => {
-  const { id } = req.query;
-  const result = await CourseService.getCourses(id ? { _id: id } : {});
+  const filters = pick(req.query, courseFilterableFields);
+  const paginationOptions = pick(req.query, paginationFields);
+
+  const result = await CourseService.getCourses(filters, paginationOptions);
   sendResponse<ICourse[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Courses fetched successfully !',
-    data: result,
+    meta: result.meta,
+    data: result.data,
   });
 });
 
 const getSingleCourse = catchAsync(async (req, res) => {
   const id = req.params.id;
   const result = await CourseService.getSingleCourse(id);
-  console.log(result);
   sendResponse<ICourse>(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -45,7 +50,9 @@ const createCourse = catchAsync(async (req, res) => {
   sendResponse<ICourse | null>(res, {
     statusCode: result ? httpStatus.CREATED : httpStatus.FORBIDDEN,
     success: result ? true : false,
-    message: `Course created ${!result && 'un'}successfully !`,
+    message: result
+      ? `Course created successfully !`
+      : 'Course creation failed !',
     data: result,
   });
 });

@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { ICourse, ICourseModel } from './course.interface';
+import { courseStatuses, courseTypes } from './course.constants';
 
 const CourseSchema = new Schema<ICourse, ICourseModel>(
   {
@@ -9,6 +10,7 @@ const CourseSchema = new Schema<ICourse, ICourseModel>(
     },
     type: {
       type: String,
+      enum: courseTypes,
       default: 'gn',
     },
     version: {
@@ -56,6 +58,11 @@ const CourseSchema = new Schema<ICourse, ICourseModel>(
       type: String,
       default: '',
     },
+    status: {
+      type: String,
+      enum: courseStatuses,
+      default: 'published',
+    },
     topics: {
       type: [Schema.Types.ObjectId],
       ref: 'CourseTopic',
@@ -83,9 +90,9 @@ const CourseSchema = new Schema<ICourse, ICourseModel>(
   }
 );
 
-CourseSchema.pre('save', function (next) {
-  this.contributors = [this.creator];
-  next();
-});
+// CourseSchema.pre('save', function (next) {
+//   this.contributors = [this.creator];
+//   next();
+// });
 
 export const Course = model<ICourse, ICourseModel>('Course', CourseSchema);

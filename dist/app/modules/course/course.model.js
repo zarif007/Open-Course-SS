@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Course = void 0;
 const mongoose_1 = require("mongoose");
+const course_constants_1 = require("./course.constants");
 const CourseSchema = new mongoose_1.Schema({
     title: {
         type: String,
@@ -9,6 +10,7 @@ const CourseSchema = new mongoose_1.Schema({
     },
     type: {
         type: String,
+        enum: course_constants_1.courseTypes,
         default: 'gn',
     },
     version: {
@@ -56,6 +58,11 @@ const CourseSchema = new mongoose_1.Schema({
         type: String,
         default: '',
     },
+    status: {
+        type: String,
+        enum: course_constants_1.courseStatuses,
+        default: 'published',
+    },
     topics: {
         type: [mongoose_1.Schema.Types.ObjectId],
         ref: 'CourseTopic',
@@ -80,8 +87,8 @@ const CourseSchema = new mongoose_1.Schema({
         virtuals: true,
     },
 });
-CourseSchema.pre('save', function (next) {
-    this.contributors = [this.creator];
-    next();
-});
+// CourseSchema.pre('save', function (next) {
+//   this.contributors = [this.creator];
+//   next();
+// });
 exports.Course = (0, mongoose_1.model)('Course', CourseSchema);
