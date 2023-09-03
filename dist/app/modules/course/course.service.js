@@ -24,7 +24,6 @@ exports.CourseService = void 0;
 const mongoose_1 = require("mongoose");
 const courseTopic_model_1 = require("../courseTopic/courseTopic.model");
 const course_model_1 = require("./course.model");
-const user_service_1 = require("../user/user.service");
 const course_constants_1 = require("./course.constants");
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 // const getCreator = async (id: string): Promise<IUser | null> => {
@@ -92,16 +91,12 @@ const getSingleCourseBySlug = (slug) => __awaiter(void 0, void 0, void 0, functi
 });
 const createCourse = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const topicIds = [];
-    // Upsert User
-    const user = yield user_service_1.UserService.getUserByExternalId(payload.creator);
-    if (!user)
-        return null;
     // Creating topics and storing _ids at the course
     for (const topic of payload.topics) {
         const res = yield courseTopic_model_1.CourseTopic.create(topic);
         topicIds.push(new mongoose_1.Types.ObjectId(res._id.toString()));
     }
-    const result = yield course_model_1.Course.create(Object.assign(Object.assign({}, payload), { topics: topicIds, creator: user === null || user === void 0 ? void 0 : user._id }));
+    const result = yield course_model_1.Course.create(Object.assign(Object.assign({}, payload), { topics: topicIds }));
     yield result.populate('topics');
     yield result.populate('creator');
     return result;

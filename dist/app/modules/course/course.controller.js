@@ -59,7 +59,9 @@ const createCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
     (0, sendResponse_1.default)(res, {
         statusCode: result ? http_status_1.default.CREATED : http_status_1.default.FORBIDDEN,
         success: result ? true : false,
-        message: result ? `Course created successfully !` : 'Course creation failed !',
+        message: result
+            ? `Course created successfully !`
+            : 'Course creation failed !',
         data: result,
     });
 }));

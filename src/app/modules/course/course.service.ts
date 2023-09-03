@@ -2,7 +2,6 @@ import { SortOrder, Types } from 'mongoose';
 import { CourseTopic } from '../courseTopic/courseTopic.model';
 import { ICourse, ICourseFilters } from './course.interface';
 import { Course } from './course.model';
-import { UserService } from '../user/user.service';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { courseSearchableFields } from './course.constants';
 import { paginationHelpers } from '../../../helpers/paginationHelpers';
@@ -90,11 +89,6 @@ const getSingleCourseBySlug = async (slug: string): Promise<ICourse | null> => {
 const createCourse = async (payload: ICourse): Promise<ICourse | null> => {
   const topicIds: Types.ObjectId[] = [];
 
-  // Upsert User
-  const user = await UserService.getUserByExternalId(payload.creator as string);
-
-  if (!user) return null;
-
   // Creating topics and storing _ids at the course
   for (const topic of payload.topics) {
     const res = await CourseTopic.create(topic);
@@ -104,7 +98,6 @@ const createCourse = async (payload: ICourse): Promise<ICourse | null> => {
   const result = await Course.create({
     ...payload,
     topics: topicIds,
-    creator: user?._id,
   });
 
   await result.populate('topics');
