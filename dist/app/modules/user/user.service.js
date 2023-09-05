@@ -19,6 +19,10 @@ const getUserByExternalId = (externalId) => __awaiter(void 0, void 0, void 0, fu
     const user = yield user_model_1.User.findOne({ externalId });
     return user;
 });
+const getUserByUsername = (userName) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.User.findOne({ userName });
+    return user;
+});
 const getUserByClerkId = (clerkId) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkApiUrl = `https://api.clerk.dev/v1/users/${clerkId}`;
     const clerkHeaders = {
@@ -54,6 +58,7 @@ const upsertUser = (clerkId) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.UserService = {
     getUserByExternalId,
+    getUserByUsername,
     getUserByClerkId,
     createUser,
     upsertUser,

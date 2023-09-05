@@ -27,6 +27,18 @@ const getUserByExternalId = (0, catchAsync_1.default)((req, res) => __awaiter(vo
         data: result,
     });
 }));
+const getUserByUserName = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userName } = req.params;
+    const result = yield user_service_1.UserService.getUserByUsername(userName);
+    (0, sendResponse_1.default)(res, {
+        statusCode: result ? http_status_1.default.OK : http_status_1.default.NOT_FOUND,
+        success: result !== null,
+        message: result
+            ? `User By username fetched successfully !`
+            : 'user Not found',
+        data: result,
+    });
+}));
 const getUserByClerkId = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { clerkId } = req.params;
     const result = yield user_service_1.UserService.getUserByClerkId(clerkId);
@@ -59,6 +71,7 @@ const upsertUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 }));
 exports.UserController = {
     getUserByExternalId,
+    getUserByUserName,
     getUserByClerkId,
     createUser,
     upsertUser,

@@ -9,6 +9,11 @@ const getUserByExternalId = async (
   return user;
 };
 
+const getUserByUsername = async (userName: string): Promise<IUser | null> => {
+  const user = await User.findOne({ userName });
+  return user;
+};
+
 const getUserByClerkId = async (clerkId: string): Promise<IUser | null> => {
   const clerkApiUrl = `https://api.clerk.dev/v1/users/${clerkId}`;
   const clerkHeaders = {
@@ -58,6 +63,7 @@ const upsertUser = async (clerkId: string): Promise<IUser | null> => {
 
 export const UserService = {
   getUserByExternalId,
+  getUserByUsername,
   getUserByClerkId,
   createUser,
   upsertUser,
